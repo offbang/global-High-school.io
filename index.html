@@ -1,113 +1,432 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Global High School - Mbarara</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Global High School Mbarara</title>
+  <meta name="description" content="Global High School Mbarara – Excellence in Education, Character, and Community." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --blue: #0f2b5b;     /* Deep blue */
+      --gold: #f0b429;     /* Warm gold */
+      --bg: #f8fafc;       /* Soft light */
+      --text: #1f2937;     /* Neutral dark */
+      --muted: #6b7280;    /* Muted grey */
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
     }
 
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 1rem;
-      text-align: center;
+    /* Accessibility: skip to content */
+    .skip-link {
+      position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; padding: .5rem .75rem; background: var(--gold); color: var(--blue); border-radius: .375rem; z-index: 1000; }
+
+    /* Header / Nav */
+    header { background: var(--white); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #e5e7eb; }
+    .container { width: min(1200px, 92%); margin: 0 auto; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .75rem 0; }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .logo img { width: 44px; height: 44px; object-fit: cover; border-radius: .5rem; }
+    .brand { color: var(--blue); font-weight: 800; font-size: 1.125rem; letter-spacing: .2px; }
+
+    nav ul { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
+    nav a { text-decoration: none; color: var(--text); font-weight: 600; }
+    nav a:hover, nav a:focus { color: var(--blue); }
+
+    .apply-btn { background: var(--blue); color: var(--white); padding: .6rem .95rem; border-radius: .5rem; text-decoration: none; font-weight: 700; }
+    .apply-btn:hover, .apply-btn:focus { background: #0c234a; }
+
+    /* Mobile menu */
+    .menu-btn { display: none; background: transparent; border: 1px solid #e5e7eb; padding: .5rem; border-radius: .5rem; }
+    .menu-icon { width: 22px; height: 2px; background: var(--text); position: relative; display: inline-block; }
+    .menu-icon::before, .menu-icon::after { content: ""; width: 22px; height: 2px; background: var(--text); position: absolute; left: 0; }
+    .menu-icon::before { top: -6px; }
+    .menu-icon::after { top: 6px; }
+
+    @media (max-width: 920px) {
+      nav ul { display: none; }
+      .menu-btn { display: inline-flex; }
+      .mobile-nav { display: none; flex-direction: column; gap: .75rem; padding: 1rem 0 1.25rem; }
+      .mobile-nav a { text-decoration: none; color: var(--text); font-weight: 600; padding: .5rem 0; }
+      .mobile-nav a:hover { color: var(--blue); }
+      .mobile-nav.open { display: flex; }
     }
 
-    header img {
-      width: 100px;
-      height: auto;
-      margin-bottom: 10px;
+    /* Hero */
+    .hero { position: relative; background: radial-gradient(1200px 500px at 75% 10%, rgba(240,180,41,0.15), transparent), linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%); }
+    .hero-inner { display: grid; grid-template-columns: 1.15fr .85fr; gap: 2rem; align-items: center; padding: 3.5rem 0; }
+    .hero h1 { color: var(--blue); font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: 1.1; margin: 0 0 .75rem; }
+    .hero p { font-size: clamp(1rem, 2.2vw, 1.15rem); color: #334155; margin: 0 0 1.25rem; }
+    .hero-cta { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: #1f2a44; padding: .75rem 1rem; border-radius: .6rem; text-decoration: none; font-weight: 800; }
+    .btn-primary:hover, .btn-primary:focus { filter: brightness(0.95); }
+    .btn-secondary { background: transparent; border: 2px solid var(--blue); color: var(--blue); padding: .7rem 1rem; border-radius: .6rem; text-decoration: none; font-weight: 800; }
+    .btn-secondary:hover, .btn-secondary:focus { background: var(--blue); color: var(--white); }
+
+    .hero-card { background: var(--white); border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1rem; box-shadow: 0 10px 24px rgba(2, 6, 23, 0.06); }
+    .hero-card img { width: 100%; height: 280px; object-fit: cover; border-radius: .75rem; }
+    .hero-badges { display: flex; gap: .5rem; margin-top: .75rem; flex-wrap: wrap; }
+    .badge { font-size: .8rem; background: #eef2ff; color: var(--blue); padding: .35rem .6rem; border-radius: 999px; border: 1px solid #dbeafe; }
+
+    @media (max-width: 920px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 2.25rem 0; }
+      .hero-card img { height: 220px; }
     }
 
-    nav {
-      background-color: #34495e;
-      padding: 0.5rem;
-      text-align: center;
+    /* Quick links */
+    .quick-links { padding: 2.25rem 0 1rem; }
+    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .card { background: var(--white); border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1.1rem; transition: transform .2s ease, box-shadow .2s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 22px rgba(2, 6, 23, 0.06); }
+    .card h3 { margin: .25rem 0 .25rem; font-size: 1.05rem; color: var(--blue); }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    @media (max-width: 920px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .cards { grid-template-columns: 1fr; }
     }
 
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-    }
+    /* Sections */
+    section { scroll-margin-top: 90px; }
+    .section { padding: 3rem 0; }
+    .section h2 { color: var(--blue); font-size: clamp(1.5rem, 2.8vw, 2rem); margin: 0 0 .75rem; }
+    .muted { color: var(--muted); }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
+    .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1.5rem; align-items: start; }
+    .about-grid img { width: 100%; height: 320px; object-fit: cover; border-radius: .9rem; border: 1px solid #e5e7eb; }
+    @media (max-width: 920px) { .about-grid { grid-template-columns: 1fr; } .about-grid img { height: 220px; } }
 
-    section {
-      padding: 2rem;
-    }
+    /* Academics */
+    .programs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .program { background: var(--white); border: 1px solid #e5e7eb; border-radius: .9rem; padding: 1rem; }
+    .program h3 { margin: .25rem 0 .25rem; color: var(--blue); }
+    @media (max-width: 920px) { .programs { grid-template-columns: 1fr; } }
 
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
+    /* News & Events */
+    .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .news-card { background: var(--white); border: 1px solid #e5e7eb; border-radius: .9rem; padding: 1rem; }
+    .news-card img { width: 100%; height: 180px; object-fit: cover; border-radius: .6rem; }
+    .news-card h3 { margin: .5rem 0 .25rem; color: var(--blue); font-size: 1.05rem; }
+    .news-card time { font-size: .85rem; color: var(--muted); }
+    @media (max-width: 920px) { .news-grid { grid-template-columns: 1fr; } }
 
-    .club {
-      background-color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+    /* Contact */
+    .contact { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1.25rem; }
+    .contact .panel { background: var(--white); border: 1px solid #e5e7eb; border-radius: .9rem; padding: 1rem; }
+    .contact label { display: block; font-weight: 600; margin: .5rem 0 .25rem; }
+    .contact input, .contact textarea, .contact select { width: 100%; padding: .65rem .75rem; border-radius: .5rem; border: 1px solid #d1d5db; background: #fff; }
+    .contact textarea { min-height: 120px; resize: vertical; }
+    .contact .btn-primary { width: 100%; margin-top: .75rem; }
+    @media (max-width: 920px) { .contact { grid-template-columns: 1fr; } }
+
+    /* Footer */
+    footer { background: var(--blue); color: #e5e7eb; margin-top: 2rem; }
+    .footer-inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 1.25rem; padding: 2rem 0; }
+    .footer-inner a { color: #e5e7eb; text-decoration: none; }
+    .footer-bottom { padding: .75rem 0; border-top: 1px solid rgba(255,255,255,.12); font-size: .9rem; color: #cbd5e1; }
+    @media (max-width: 920px) { .footer-inner { grid-template-columns: 1fr; } }
   </style>
 </head>
-<body>
 
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Header / Navigation -->
   <header>
-    <img src="school-logo.jpg" alt="Global High School Logo" />
-    <h1>Global High School – Mbarara</h1>
-    <p><strong>GOD FIRST</strong></p>
+    <div class="container nav">
+      <a class="logo" href="#" aria-label="Global High School Mbarara home">
+        <!-- Replace src with your school logo -->
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=300&auto=format&fit=crop" alt="School logo placeholder" />
+        <span class="brand">Global High School Mbarara</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#admissions">Admissions</a></li>
+          <li><a href="#academics">Academics</a></li>
+          <li><a href="#student-life">Student Life</a></li>
+          <li><a href="#news">News & Events</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a class="apply-btn" href="#admissions">Apply Now</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-btn" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
+        <span class="menu-icon"></span>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="container mobile-nav" role="dialog" aria-label="Mobile Menu">
+      <a href="#about">About</a>
+      <a href="#admissions">Admissions</a>
+      <a href="#academics">Academics</a>
+      <a href="#student-life">Student Life</a>
+      <a href="#news">News & Events</a>
+      <a href="#contact">Contact</a>
+      <a class="apply-btn" href="#admissions" style="text-align:center;">Apply Now</a>
+    </div>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#academics">Academics</a>
-    <a href="#ict">ICT Club</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Learning Today, Leading Tomorrow</h1>
+        <p>Welcome to <strong>Global High School Mbarara</strong>—where curiosity grows and leaders are made. We nurture academic excellence, character, and community through inclusive, student‑centered learning.</p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="#admissions">Apply Now</a>
+          <a class="btn-secondary" href="#about">Explore Our School</a>
+        </div>
+        <div class="hero-badges" aria-label="Highlights">
+          <span class="badge">Cambridge & UNEB Tracks</span>
+          <span class="badge">STEM Labs</span>
+          <span class="badge">Clubs & Sports</span>
+          <span class="badge">Safe, Inclusive Campus</span>
+        </div>
+      </div>
 
-  <section id="about">
-    <h2>About Our School</h2>
-    <p>Global High School – Mbarara is committed to excellence in academics, leadership, and character development, guided by our motto: <strong>GOD FIRST</strong>.</p>
-  </section>
-
-  <section id="academics">
-    <h2>Academics</h2>
-    <p>We offer a wide variety of subjects to prepare students for higher education and global opportunities.</p>
-  </section>
-
-  <section id="ict">
-    <h2>ICT Club</h2>
-    <div class="club">
-      <h3>Global High School ICT Club</h3>
-      <p>The ICT Club is a hub for innovation, where students explore coding, tech, and digital creativity.</p>
-      <ul>
-        <li>Weekly coding sessions</li>
-        <li>Website & app building</li>
-        <li>School tech support</li>
-        <li>Competitions and exhibitions</li>
-      </ul>
+      <div class="hero-card" aria-label="Campus highlights">
+        <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c56?q=80&w=1200&auto=format&fit=crop" alt="Students in a bright modern classroom" />
+        <div class="hero-badges">
+          <span class="badge">Mbarara, Uganda</span>
+          <span class="badge">Day & Boarding</span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>Email: info@globalhighschool.ac.ug</p>
-    <p>Phone: +256 700 000 000</p>
+  <!-- Quick Links -->
+  <section class="quick-links">
+    <div class="container cards" aria-label="Quick Links">
+      <a class="card" href="#admissions" aria-label="Admissions information">
+        <h3>Admissions</h3>
+        <p>Entry requirements, fees, scholarships, and deadlines.</p>
+      </a>
+      <a class="card" href="#news" aria-label="Upcoming events">
+        <h3>Events</h3>
+        <p>Open Days, sports fixtures, and parent meetings.</p>
+      </a>
+      <a class="card" href="#academics" aria-label="Academic programs">
+        <h3>Programs</h3>
+        <p>Lower & Upper Secondary, A‑Level, and enrichment.</p>
+      </a>
+      <a class="card" href="#contact" aria-label="Contact details">
+        <h3>Contact</h3>
+        <p>Location, phone, email, and office hours.</p>
+      </a>
+    </div>
   </section>
 
+  <!-- About Us -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div>
+        <h2 id="about-title">About Us</h2>
+        <p class="muted">Our mission is to inspire young minds and shape bright futures. We believe every learner thrives when challenged, supported, and celebrated.</p>
+        <p>At Global High School Mbarara, we combine rigorous academics with holistic development—emphasizing critical thinking, creativity, leadership, and service. Our dedicated faculty foster a safe, inclusive environment where students discover their passions and purpose.</p>
+        <ul>
+          <li>Experienced, caring teachers</li>
+          <li>Modern science & ICT labs</li>
+          <li>Arts, music, and sports programs</li>
+          <li>Guidance & counseling services</li>
+        </ul>
+      </div>
+      <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop" alt="Students collaborating in a school library" />
+    </div>
+  </section>
+
+  <!-- Admissions -->
+  <section id="admissions" class="section" aria-labelledby="admissions-title">
+    <div class="container">
+      <h2 id="admissions-title">Admissions</h2>
+      <p class="muted">Join a vibrant community committed to excellence. Applications are reviewed on a rolling basis.</p>
+      <div class="programs" role="list">
+        <div class="program" role="listitem">
+          <h3>How to Apply</h3>
+          <p>Complete the application form, attach transcripts, and schedule an interview. Limited scholarships are available for outstanding applicants.</p>
+        </div>
+        <div class="program" role="listitem">
+          <h3>Requirements</h3>
+          <p>Recent report cards, national ID or birth certificate, two passport photos, recommendation letter, and entrance assessments.</p>
+        </div>
+        <div class="program" role="listitem">
+          <h3>Fees & Support</h3>
+          <p>Transparent tuition with flexible plans. Need‑based aid and merit scholarships help make GHS Mbarara accessible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Academics -->
+  <section id="academics" class="section" aria-labelledby="academics-title">
+    <div class="container">
+      <h2 id="academics-title">Academics</h2>
+      <p class="muted">Challenging programs that prepare students for university and beyond.</p>
+      <div class="programs">
+        <div class="program">
+          <h3>Lower Secondary (S1–S4)</h3>
+          <p>Foundational courses in Mathematics, Sciences, Languages, and Humanities with project‑based learning.</p>
+        </div>
+        <div class="program">
+          <h3>Upper Secondary (S5–S6)</h3>
+          <p>Specialized subject combinations, research projects, and career guidance for national and international exams.</p>
+        </div>
+        <div class="program">
+          <h3>Enrichment</h3>
+          <p>STEM clubs, debate, music, arts, coding, entrepreneurship, and community service opportunities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Life -->
+  <section id="student-life" class="section" aria-labelledby="life-title">
+    <div class="container">
+      <h2 id="life-title">Student Life</h2>
+      <p class="muted">Learning extends beyond the classroom—clubs, sports, trips, leadership, and culture.</p>
+      <div class="programs">
+        <div class="program">
+          <h3>Clubs & Societies</h3>
+          <p>Robotics, Interact, Environmental, Writers & Media, Christian Union, and more.</p>
+        </div>
+        <div class="program">
+          <h3>Sports</h3>
+          <p>Basketball, football, athletics, netball, table tennis—with accredited coaches and regular competitions.</p>
+        </div>
+        <div class="program">
+          <h3>Wellbeing</h3>
+          <p>Mentorship, counseling, health & nutrition programs, and a safe boarding environment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News & Events -->
+  <section id="news" class="section" aria-labelledby="news-title">
+    <div class="container">
+      <h2 id="news-title">News & Events</h2>
+      <p class="muted">Stay up to date with campus life.</p>
+      <div class="news-grid">
+        <article class="news-card">
+          <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1200&auto=format&fit=crop" alt="Students at a science fair" />
+          <h3>Science Fair Winners Announced</h3>
+          <time datetime="2025-08-15">Aug 15, 2025</time>
+          <p>Congratulations to our innovators who showcased brilliant projects in energy, health, and agriculture.</p>
+        </article>
+        <article class="news-card">
+          <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop" alt="Basketball game in the school court" />
+          <h3>Inter‑Schools Sports Day</h3>
+          <time datetime="2025-09-10">Sept 10, 2025</time>
+          <p>Join us for a day of friendly competition and community spirit on our main field.</p>
+        </article>
+        <article class="news-card">
+          <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop" alt="Parents and students at an open day" />
+          <h3>Open Day & Campus Tours</h3>
+          <time datetime="2025-09-20">Sept 20, 2025</time>
+          <p>Prospective families are invited to tour facilities and meet our staff and student leaders.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section" aria-labelledby="contact-title">
+    <div class="container contact">
+      <div class="panel">
+        <h2 id="contact-title">Contact Us</h2>
+        <p class="muted">Have questions? Send us a message and our admissions team will get back to you.</p>
+        <form aria-label="Contact form" onsubmit="event.preventDefault(); alert('Thanks! Your message has been received.');">
+          <label for="name">Full Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" required />
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+          <label for="relation">I am a</label>
+          <select id="relation" name="relation">
+            <option>Parent/Guardian</option>
+            <option>Student</option>
+            <option>Teacher</option>
+            <option>Other</option>
+          </select>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="How can we help?" required></textarea>
+
+          <button class="btn-primary" type="submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="panel" aria-label="School details">
+        <h2>School Details</h2>
+        <p><strong>Global High School Mbarara</strong><br/>Boma Hill Rd, Mbarara, Uganda</p>
+        <p><strong>Phone:</strong> +256 7xx xxx xxx<br/>
+           <strong>Email:</strong> info@ghs-mbarara.ac.ug</p>
+        <p><strong>Office Hours:</strong> Mon–Fri, 8:00–17:00 (EAT)</p>
+        <iframe title="Map to Global High School Mbarara" style="width:100%; height:220px; border:0; border-radius:.6rem;" loading="lazy" allowfullscreen src="https://www.google.com/maps?q=Mbarara,%20Uganda&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    &copy; 2025 Global High School – Mbarara. All Rights Reserved.
+    <div class="container footer-inner">
+      <div>
+        <h3 style="margin:0 0 .35rem;">Global High School Mbarara</h3>
+        <p>Excellence in Education, Character, and Community.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <nav aria-label="Footer">
+          <ul style="list-style:none; padding:0; margin:0; display:grid; gap:.4rem;">
+            <li><a href="#admissions">Admissions</a></li>
+            <li><a href="#academics">Academics</a></li>
+            <li><a href="#student-life">Student Life</a></li>
+            <li><a href="#news">News & Events</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p style="margin:.25rem 0;">Boma Hill Rd, Mbarara, Uganda</p>
+        <p style="margin:.25rem 0;">+256 7xx xxx xxx</p>
+        <p style="margin:.25rem 0;">info@ghs-mbarara.ac.ug</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">© <span id="year"></span> Global High School Mbarara. All rights reserved.</div>
   </footer>
 
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+      });
+    }
+
+    // Current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
